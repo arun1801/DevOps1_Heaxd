@@ -31,3 +31,13 @@
     insertafter: EOF
     line: "INSECURE_REGISTRY='--insecure-registry 172.30.0.0/16'"
   notify: Restart docker
+
+- name: Determine Docker network Bridge Subnet
+  docker_network_info:
+    name: bridge
+  register: docker_network
+
+- name: Print information about network
+  debug:
+    var: docker_network.network
+  when: docker_network.exists
