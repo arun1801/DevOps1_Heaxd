@@ -14,7 +14,8 @@
 
 - name: Add Docker Repository
   yum_repository:
-    name: https://download.docker.com/linux/centos/docker-ce.repo
+    name: epel
+    baseurl: https://download.docker.com/linux/centos/docker-ce.repo
     state: present
 
 - name: Install docker
