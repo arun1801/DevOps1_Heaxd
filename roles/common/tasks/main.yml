@@ -14,14 +14,17 @@
 
 - name: Add Docker Repository
   yum_repository:
-    name: epel
-    description: EPEL YUM repo
+    name: docker-ce
+    description: Docker CE Repo
     baseurl: https://download.docker.com/linux/centos/docker-ce.repo
     state: present
 
 - name: Install docker
   yum:
-    name: docker
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
     state: latest
 
 - name: Insert docker INSECURE_REG line
