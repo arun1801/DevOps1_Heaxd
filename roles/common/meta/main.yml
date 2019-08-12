@@ -1,0 +1,6 @@
+---
+galaxy_info:
+  description: Install Docker and its dependencies
+  author: Arun Singh
+dependencies: []
+allow_duplicates: no

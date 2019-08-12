@@ -1,0 +1,31 @@
+---
+- name: package epel-release upgrade
+  yum:
+    name:
+      - epel-release
+
+- name: Install required system packages
+  yum:
+    name:
+      - yum-utils
+      - device-mapper-persistent-data
+      - lvm2
+    state: present
+
+- name: Add Docker Repository
+  yum_repository:
+    name: https://download.docker.com/linux/centos/docker-ce.repo
+    state: present
+
+- name: Install docker
+  yum:
+    name: docker
+    state: latest
+
+- name: Insert docker INSECURE_REG line
+  lineinfile:
+    path: /etc/sysconfig/docker
+    state: present
+    insertafter: EOF
+    line: "INSECURE_REGISTRY='--insecure-registry 172.30.0.0/16'"
+  notify: Restart docker

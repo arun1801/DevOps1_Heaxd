@@ -1,0 +1,8 @@
+---
+- hosts: localhost
+  become: true
+  any_errors_fatal: true
+  roles:
+    - common
+    # - okd-cluster
+    # - jenkins
