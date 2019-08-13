@@ -77,7 +77,7 @@
 
 - name: Set Subnet value of docker network
   vars:
-    msgs: |
+    msg: |
       docker_network.network.IPAM.Config | map(attribute="Subnet") | list | join('\n')
   when: docker_network.exists
 
