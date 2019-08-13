@@ -11,7 +11,7 @@
     remote_src: yes
 
 - name: Copy oc libs to PATH
-  command: cp -r /tmp/openshift-origin-server-v{{OKD_VERSION}}-0cbc58b-linux-64bit/ /usr/local/bin
+  shell: cp -r /tmp/openshift-origin-server-v{{OKD_VERSION}}-0cbc58b-linux-64bit/* /usr/local/bin
 
 - name: OC cluster UP
   script: oc cluster up
