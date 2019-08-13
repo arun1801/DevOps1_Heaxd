@@ -1,6 +1,13 @@
 ---
 - name: Disable swap
-  swapoff: {}
+  shell: |
+    swapoff -a
+
+- name: Disable SWAP in fstab
+  replace:
+    path: /etc/fstab
+    regexp: '^(.+?\sswap\s+sw\s+.*)$'
+    replace: '# \1'
 
 - name: Enable IP Forwarding
   sysctl:
