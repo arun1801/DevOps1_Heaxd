@@ -64,6 +64,11 @@
   notify:
     - restart docker
 
+- name: restart docker
+  service:
+    name: docker
+    state: restarted
+
 - name: Determine Docker network Bridge Subnet
   docker_network_info:
     name: bridge
