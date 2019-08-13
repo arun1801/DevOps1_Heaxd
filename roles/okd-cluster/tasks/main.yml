@@ -4,7 +4,7 @@
   register: public_ip
 
 - name: Get internal IP
-  command: "ip route get 8.8.8.8 | awk '{print $NF; exit}'"
+  shell: "ip route get 8.8.8.8 | awk '{print $NF; exit}'"
   register: private_ip
 
 - name: set domain value
