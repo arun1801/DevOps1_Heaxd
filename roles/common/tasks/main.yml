@@ -75,9 +75,9 @@
     name: bridge
   register: docker_network
 
-- name: Print information about network
-  debug:
-    var: docker_network.network.IPAM.Config | map(attribute="Subnet") | list
+- name: Set Subnet value of docker network
+  set_fact:
+    subnet: docker_network.network.IPAM.Config | map(attribute="Subnet") | list | join('\n')
   when: docker_network.exists
 
 - name: firewalld zone rules - create zone
@@ -88,7 +88,7 @@
 
 - name: firewalld zone rules - add source
   firewalld:
-    source: docker_network.network.IPAM.Config | map(attribute="Subnet") | list
+    source: subnet
     zone: dockerc
     permanent: yes
     state: enabled
