@@ -61,7 +61,8 @@
     src: daemon.json
     dest: /etc/docker/daemon.json
     mode: 0755
-  notify: Restart docker
+  notify:
+    - restart docker
 
 - name: Force all notified handlers to run at this point, not waiting for normal sync points
   meta: flush_handlers
