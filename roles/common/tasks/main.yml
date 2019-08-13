@@ -27,6 +27,7 @@
       - yum-utils
       - device-mapper-persistent-data
       - lvm2
+      - firewalld
     state: present
 
 - name: Add Docker Repository
@@ -79,8 +80,33 @@
     var: docker_network.network.IPAM.Config | map(attribute="Subnet") | list
   when: docker_network.exists
 
-- name: firewalld zone rules
+- name: firewalld zone rules - create zone
   firewalld:
     zone: dockerc
     state: present
     permanent: yes
+
+- name: firewalld zone rules - add source
+  firewalld:
+    source: docker_network.network.IPAM.Config | map(attribute="Subnet") | list
+    zone: dockerc
+    permanent: yes
+    state: enabled
+
+- name: firewalld zone rules - add tcp ports
+  firewalld:
+    port: 8081/tcp
+    permanent: yes
+    state: enabled
+
+- name: firewalld zone rules - add udp ports
+  firewalld:
+    port: 53/udp
+    permanent: yes
+    state: enabled
+
+- name: firewalld zone rules - add tcp ports
+  firewalld:
+    port: 8053/udp
+    permanent: yes
+    state: enabled
