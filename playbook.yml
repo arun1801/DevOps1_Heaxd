@@ -4,5 +4,5 @@
   any_errors_fatal: true
   roles:
     - common
-    # - okd-cluster
+    - okd-cluster
     # - jenkins
