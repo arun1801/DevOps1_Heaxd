@@ -78,3 +78,9 @@
   debug:
     var: docker_network.network.IPAM.Config | map(attribute="Subnet") | list
   when: docker_network.exists
+
+- name: firewalld zone rules
+  firewalld:
+    zone: dockerc
+    state: present
+    permanent: yes
