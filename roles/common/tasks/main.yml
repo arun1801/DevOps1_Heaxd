@@ -76,11 +76,8 @@
   register: docker_network
 
 - name: Set Subnet value of docker network
-  vars:
-    msg: |
-      docker_network.network.IPAM.Config | map(attribute="Subnet") | list | join('\n')
-  debug:
-    msg: "{{ msg }}"
+  set_fact:
+    subnet: "{{ docker_network.network.IPAM.Config | map(attribute='Subnet') | list | join('\n') }}"
   when: docker_network.exists
 
 - name: firewalld zone rules - create zone
@@ -91,7 +88,7 @@
 
 - name: firewalld zone rules - add source
   firewalld:
-    source: "{{ msg }}"
+    source: "{{ subnet }}"
     zone: dockerc
     permanent: yes
     state: enabled
