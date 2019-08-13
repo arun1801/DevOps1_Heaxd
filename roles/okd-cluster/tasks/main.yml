@@ -19,7 +19,7 @@
   git:
     repo: "https://github.com/openshift/openshift-ansible.git"
     dest: /tmp/openshift-ansible
-    version: "rebase-{{ VERSION }}"
+    version: "release-{{ VERSION }}"
     depth: 1
     clone: yes
 
