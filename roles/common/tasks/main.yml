@@ -28,6 +28,7 @@
       - device-mapper-persistent-data
       - lvm2
       - firewalld
+      - python-docker-py
     state: present
 
 - name: Add Docker Repository
