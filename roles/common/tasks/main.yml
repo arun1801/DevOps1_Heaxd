@@ -76,5 +76,5 @@
 
 - name: Print information about network
   debug:
-    var: docker_network.network
+    var: docker_network.network.IPAM.Config.Subnet
   when: docker_network.exists
