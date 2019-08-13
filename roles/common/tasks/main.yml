@@ -110,3 +110,8 @@
     port: 8053/udp
     permanent: yes
     state: enabled
+
+- name: filewalld reload
+  service:
+    name: firewalld
+    state: restarted
