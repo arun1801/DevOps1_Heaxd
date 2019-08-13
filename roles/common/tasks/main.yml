@@ -57,6 +57,11 @@
       - containerd.io
     state: latest
 
+- name: restart docker
+  systemd:
+    name: docker
+    state: started
+
 - name: Insert docker INSECURE_REG line
   copy:
     src: daemon.json
