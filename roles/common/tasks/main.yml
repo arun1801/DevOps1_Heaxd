@@ -1,4 +1,14 @@
 ---
+- name: Disable swap
+  swapoff: {}
+
+- name: Enable IP Forwarding
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: 1
+    sysctl_file: "/etc/sysctl.d/99-openshift.conf"
+    reload: yes
+
 - name: package epel-release upgrade
   yum:
     name:
@@ -40,11 +50,10 @@
     state: latest
 
 - name: Insert docker INSECURE_REG line
-  lineinfile:
-    path: /etc/sysconfig/docker
-    state: present
-    insertafter: EOF
-    line: "INSECURE_REGISTRY='--insecure-registry 172.30.0.0/16'"
+  copy:
+    src: daemon.json
+    dest: /etc/docker/daemon.json
+    mode: 0755
   notify: Restart docker
 
 - name: Determine Docker network Bridge Subnet
