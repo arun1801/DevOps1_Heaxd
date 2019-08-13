@@ -111,7 +111,12 @@
     permanent: yes
     state: enabled
 
-- name: filewalld reload
+- name: filewalld reload | STOP
   service:
     name: firewalld
-    state: restarted
+    state: stopped
+
+- name: filewalld reload | START
+  service:
+    name: firewalld
+    state: started
