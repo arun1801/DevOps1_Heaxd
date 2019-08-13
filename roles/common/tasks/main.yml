@@ -24,38 +24,29 @@
 - name: Install required system packages
   yum:
     name:
-      - yum-utils
-      - device-mapper-persistent-data
-      - lvm2
-      - firewalld
+      - wget
+      - git
+      - zile
+      - nano
+      - net-tools
+      - docker-1.13.1
+      - bind-utils
+      - iptables-services
+      - bridge-utils
+      - bash-completion
+      - kexec-tools
+      - sos
+      - psacct
+      - openssl-devel
+      - httpd-tools
+      - NetworkManager
+      - python-cryptography
+      - python2-pip
+      - python-devel
+      - python-passlib
+      - java-1.8.0-openjdk-headless
+      - "@Development Tools"
     state: present
-
-- name: Add Docker Repository
-  get_url:
-    url: https://download.docker.com/linux/centos/docker-ce.repo
-    dest: /etc/yum.repos.d/docer-ce.repo
-
-- name: Enable Docker Edge repo
-  ini_file:
-    dest: /etc/yum.repos.d/docer-ce.repo
-    section: "docker-ce-edge"
-    option: enabled
-    value: 0
-
-- name: Enable Docker Test repo
-  ini_file:
-    dest: /etc/yum.repos.d/docer-ce.repo
-    section: "docker-ce-test"
-    option: enabled
-    value: 0
-
-- name: Install docker
-  yum:
-    name:
-      - docker-ce
-      - docker-ce-cli
-      - containerd.io
-    state: latest
 
 - name: Insert docker INSECURE_REG line
   copy:
@@ -70,53 +61,18 @@
     name: docker
     state: restarted
 
-- name: Determine Docker network Bridge Subnet
-  docker_network_info:
-    name: bridge
-  register: docker_network
-
-- name: Set Subnet value of docker network
-  set_fact:
-    subnet: "{{ docker_network.network.IPAM.Config | map(attribute='Subnet') | list | join('\n') }}"
-  when: docker_network.exists
-
-- name: firewalld zone rules - create zone
-  firewalld:
-    zone: dockerc
-    state: present
-    permanent: yes
-
-- name: firewalld zone rules - add source
-  firewalld:
-    source: "{{ subnet }}"
-    zone: dockerc
-    permanent: yes
-    state: enabled
-
-- name: firewalld zone rules - add tcp ports
-  firewalld:
-    port: 8081/tcp
-    permanent: yes
-    state: enabled
-
-- name: firewalld zone rules - add udp ports
-  firewalld:
-    port: 53/udp
-    permanent: yes
-    state: enabled
-
-- name: firewalld zone rules - add tcp ports
-  firewalld:
-    port: 8053/udp
-    permanent: yes
-    state: enabled
-
-- name: filewalld reload | STOP
-  service:
-    name: firewalld
-    state: stopped
-
-- name: filewalld reload | START
-  service:
-    name: firewalld
+- name: Disabling EPEL repo
+  lineinfile:
+    path: /etc/yum.repos.d/epel.repo
+    regexp: "^enabled="
+    line: enabled=0
+- name: Enable and start Network MAnager
+  systemd:
+    name: NetworkManager
+    enabled: yes
     state: started
+
+- name: Install pyOpenSSL
+  yum:
+    name: pyOpenSSL
+    enablerepo: "epel"
