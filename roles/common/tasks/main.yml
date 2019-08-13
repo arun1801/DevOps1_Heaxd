@@ -76,5 +76,5 @@
 
 - name: Print information about network
   debug:
-    var: docker_network.network.IPAM.Config | select('match','Subnet')
+    var: "{{ docker_network.network.IPAM.Config | select('match','Subnet') | list }}"
   when: docker_network.exists
