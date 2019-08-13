@@ -79,6 +79,8 @@
   vars:
     msg: |
       docker_network.network.IPAM.Config | map(attribute="Subnet") | list | join('\n')
+  debug:
+    msg: "{{ msg }}"
   when: docker_network.exists
 
 - name: firewalld zone rules - create zone
