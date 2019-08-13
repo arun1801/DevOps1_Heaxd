@@ -1,9 +1,25 @@
 ---
+- name: Get current public IP
+  command: "curl -s ipinfo.io/ip"
+  register: public_ip
+
+- name: Get internal IP
+  command: "ip route get 8.8.8.8 | awk '{print $NF; exit}'"
+  register: private_ip
+
+- name: set domain value
+  set_fact:
+    DOMAIN: "{{ public_ip.stdout }}"
+
+- name: set IP value
+  set_fact:
+    IP: "{{ private_ip.stdout }}"
+
 - name: Get the openshift-ansible repo
   git:
     repo: "https://github.com/openshift/openshift-ansible.git"
     dest: /tmp/openshift-ansible
-    version: "rebase-{{version}}"
+    version: "rebase-{{ VERSION }}"
     depth: 1
     clone: yes
 
@@ -41,8 +57,8 @@
 - name: htpasswd file creation
   htpasswd:
     path: /etc/origin/master/htpasswd
-    name: "{{USERNAME}}"
-    password: "{{PASSWORD}}"
+    name: "{{ USERNAME }}"
+    password: "{{ PASSWORD }}"
     owner: root
     mode: 0640
 

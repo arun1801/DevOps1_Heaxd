@@ -1,2 +1,5 @@
 ---
-OKD_VERSION: "3.11.0"
+VERSION: "3.11.0"
+USERNAME: "root"
+PASSWORD: "password"
+API_PORT: "8443"
