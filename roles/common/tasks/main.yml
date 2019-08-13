@@ -60,8 +60,11 @@
 
 - name: restart docker
   systemd:
-    name: docker
+    name: "{{ item }}"
     state: started
+    with_items:
+      - docker
+      - firewalld
 
 - name: Insert docker INSECURE_REG line
   copy:
