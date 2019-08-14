@@ -76,3 +76,11 @@
   yum:
     name: pyOpenSSL
     enablerepo: "epel"
+
+- name: Generating SSH Keygen
+  command: 'ssh-keygen -q -f ~/.ssh/id_rsa -N ""'
+  register: ssh_key
+
+- name: Add ssh key to authorized keys
+  command: "cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys"
+  when: ssh_key is succeeded
