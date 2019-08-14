@@ -1,0 +1,11 @@
+---
+- name: Creating PROJECT under logged in user
+  command: "oc new-project {{ PROJECT }}"
+  register: project_name
+
+- name: Deploy Jenkins in OKD Cluster
+  command: "oc new-app jenkins-{{ JENKINS_TYPE }}"
+  when: project_name is succeeded
+
+- name: Display Jenkins URL
+  command: "oc get route"

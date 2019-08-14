@@ -64,3 +64,6 @@
 
 - name: Updating oc adm policy
   command: "oc adm policy add-cluster-role-to-user cluster-admin {{USERNAME}}"
+
+- name: Open shift login to create apps
+  command: "oc login -u {{ USERNAME }} -p {{ PASSWORD }} https://console.{{ DOMAIN }}:{{ API_PORT }}"

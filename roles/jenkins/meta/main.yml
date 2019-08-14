@@ -1,0 +1,6 @@
+---
+galaxy_info:
+  description: Deploy Jenkins in openshift Cluster
+  author: Arun Singh
+dependencies: []
+allow_duplicates: no

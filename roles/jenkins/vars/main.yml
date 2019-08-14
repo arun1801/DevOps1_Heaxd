@@ -1,0 +1,3 @@
+---
+PROJECT: "CICD-JENKINS"
+JENKINS_TYPE: "ephemeral"

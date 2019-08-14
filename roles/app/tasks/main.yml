@@ -1,0 +1,13 @@
+---
+- name: Copy Pipeline to remote host
+  template:
+    src: pipeline.j2
+    dest: /tmp/pipeline.yml
+    force: yes
+    mode: 0755
+
+- name: Create Project for Application Deployment
+  command: "oc new-project {{ PROJECT_NAME }}"
+
+- name: Deploy App on OC cluster with Blue Green Deployment
+  command: "oc new-app -f /tmp/pipeline.yml"
